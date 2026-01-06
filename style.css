@@ -10,6 +10,57 @@ body {
   background: #ffff00;
   background-image: 
     repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,0,0,.1) 35px, rgba(255,0,0,.1) 70px);
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 0, 0, 0.03) 0px,
+    transparent 1px,
+    transparent 2px,
+    rgba(255, 0, 0, 0.03) 3px
+  );
+  animation: flicker 0.15s infinite;
+  z-index: -1;
+}
+
+@keyframes flicker {
+  0% {
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(255, 0, 0, 0.03) 0px,
+      transparent 1px,
+      transparent 2px,
+      rgba(255, 0, 0, 0.03) 3px
+    );
+  }
+  50% {
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(255, 0, 0, 0.01) 0px,
+      transparent 1px,
+      transparent 2px,
+      rgba(255, 0, 0, 0.01) 3px
+    );
+  }
+}
+
+.under-construction {
+  background: linear-gradient(90deg, #ffff00, #ff0000, #ffff00);
+  padding: 10px;
+  text-align: center;
+  border: 3px dashed #ff0000;
+  font-weight: bold;
+  font-size: 14px;
+  animation: blink-fast 0.5s infinite;
 }
 
 .banner {
@@ -33,13 +84,62 @@ marquee {
   text-align: center;
   border-bottom: 10px double #000;
   box-shadow: inset 0 0 50px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.stars {
+  font-size: 2em;
+  margin-bottom: 20px;
+  animation: twinkle 1.5s infinite;
+}
+
+.flames {
+  font-size: 1.5em;
+  margin-top: 20px;
+  animation: flameflicker 0.3s infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes flameflicker {
+  0%, 100% { transform: translateY(0px) scaleY(1); }
+  25% { transform: translateY(-2px) scaleY(1.1); }
+  50% { transform: translateY(0px) scaleY(0.95); }
+  75% { transform: translateY(-1px) scaleY(1.05); }
 }
 
 .hero h1 {
   font-size: 4em;
   margin-bottom: 10px;
   text-shadow: 4px 4px 0px #000, 6px 6px 0px #ff0000;
-  animation: rainbow 3s infinite;
+  animation: rainbow 3s infinite, wobble 0.5s infinite;
+}
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-2deg); }
+  75% { transform: rotate(2deg); }
+}
+
+.spinning {
+  animation: spin 4s linear infinite !important;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.wavey h2 {
+  animation: wave 1s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 .hero h2 {
@@ -62,6 +162,11 @@ marquee {
 @keyframes blink {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
+}
+
+@keyframes blink-fast {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0.3; }
 }
 
 @keyframes rainbow {
@@ -165,6 +270,15 @@ marquee {
   box-shadow: 3px 3px 0px #000;
 }
 
+.bounce {
+  animation: bounce-up 0.8s infinite;
+}
+
+@keyframes bounce-up {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
 .testimonial em {
   font-size: 1.1em;
 }
@@ -202,6 +316,15 @@ marquee {
   box-shadow: 3px 3px 0px #000;
 }
 
+.spin {
+  animation: spin-badge 2s linear infinite;
+}
+
+@keyframes spin-badge {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(360deg); }
+}
+
 .small-text {
   font-size: 0.7em;
   margin-top: 15px;
@@ -220,6 +343,20 @@ marquee {
   font-size: 2.5em;
   margin-bottom: 20px;
   text-shadow: 3px 3px 0px #fff;
+  animation: glitch-text 0.3s infinite;
+}
+
+@keyframes glitch-text {
+  0%, 100% { 
+    text-shadow: 3px 3px 0px #fff, -2px -2px 0px #ff00ff;
+  }
+  50% {
+    text-shadow: 3px 3px 0px #fff, -2px -2px 0px #00ffff;
+  }
+}
+
+.glitch {
+  animation: glitch-text 0.3s infinite !important;
 }
 
 .urgent {
@@ -231,12 +368,12 @@ marquee {
   font-size: 1.3em;
   border: 3px solid #000;
   margin: 20px 0;
-  animation: pulse 1s infinite;
+  animation: pulse 0.5s infinite;
 }
 
 @keyframes pulse {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+  50% { transform: scale(1.1); }
 }
 
 .tiny {
@@ -330,6 +467,19 @@ button:disabled {
   margin-bottom: 15px;
 }
 
+.rainbow-text {
+  background: linear-gradient(90deg, #ff0000, #ff7700, #ffff00, #00ff00, #0000ff, #ff0000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: rainbow-shift 3s linear infinite;
+}
+
+@keyframes rainbow-shift {
+  0% { background-position: 0% center; }
+  100% { background-position: -200% center; }
+}
+
 .trust-section p {
   font-size: 1.2em;
   margin: 10px 0;
@@ -342,6 +492,22 @@ button:disabled {
   text-align: center;
   border-top: 5px solid #ff0000;
   font-family: 'Courier New', monospace;
+  animation: matrix-rain 0.1s infinite;
+}
+
+.counter {
+  animation: count-up 10s infinite;
+  font-weight: bold;
+  color: #ffff00;
+}
+
+@keyframes count-up {
+  0% { content: '420'; }
+}
+
+@keyframes matrix-rain {
+  0%, 100% { text-shadow: 0 0 10px #00ff00; }
+  50% { text-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00; }
 }
 
 .footer p {
